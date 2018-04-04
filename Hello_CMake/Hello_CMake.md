@@ -499,10 +499,10 @@ file(GLOB ALL_H_FILE RELATIVE${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}
 ```
 
 &emsp;&emsp;这里我们进入了 main.cpp 所在的目录后执行 “cmake .” 后就可以得到 Makefile 并使用 make 进行编译,如下图所示。
- <div align=center>![1](./fig/1.jpg) </div> <div align=center>图 1. CMake 的运行结果 </div>
+ <div align=center> <img src="./fig/1.jpg" width="400"/> </div> <div align=center>图 1. CMake 的运行结果 </div>
 
 ## 五、处理多源文件目录的方法
- <div align=center>![](./fig/2.jpg) </div><div align=center>图 2. 源代码分布情况</div>
+ <div align=center> <img src="./fig/2.jpg" width="400"/> </div><div align=center>图 2. 源代码分布情况</div>
 ### Step 1 : 项目主目录中的 CMakeLists.txt
 &emsp;&emsp;在目录 Step2 中创建文件 CMakeLists.txt 。文件内容如下:
 &emsp;&emsp;清单 3 目录 Step2 中的 CMakeLists.txt
@@ -528,15 +528,15 @@ file(GLOB ALL_H_FILE RELATIVE${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}
 
 ### Step 3 : 执行 cmake
 &emsp;&emsp;至此我们完成了项目中所有 CMakeLists.txt 文件的编写,进入目录 Step2 中依次执行命令 “cmake .” 和 “make” 得到结果如下:
-<div align=center>![3](./fig/3.jpg)</div>
+<div align=center> <img src="./fig/3.jpg" width="400"/></div>
 <div align=center>图3. 处理多源文件目录时 cmake 的执行结果</div>
 &emsp;&emsp;在执行 cmake 的过程中,首先解析目录 step2 中的 CMakeLists.txt ,当程序执行命令 ADD_SUBDIRECTORY( src ) 时进入目录 src 对其中的 CMakeLists.txt 进行解析。
 
 ## 六、在工程中查找并使用其他程序库的方法
 &emsp;&emsp;在开发软件的时候我们会用到一些函数库,这些函数库在不同的系统中安装的位置可能不同,编译的时候需要首先找到这些软件包的头文件以及链接库所在的目录以便生成编译选项。例如一个需要使用博克利数据库项目,需要头文件db_cxx.h 和链接库 libdb_cxx.so ,现在该项目中有一个源代码文件 main.cpp ，放在项目的根目录中。
 ### Step 1 ： 程序库说明文件
-在项目的根目录中创建目录 cmake/modules/ ，在 cmake/modules/ 下创建文件 Findlibdb_cxx.cmake ，内容如下：
-清单 5. 文件 Findlibdb_cxx.cmake
+&emsp;&emsp;在项目的根目录中创建目录 cmake/modules/ ，在 cmake/modules/ 下创建文件 Findlibdb_cxx.cmake ，内容如下：
+&emsp;&emsp;清单 5. 文件 Findlibdb_cxx.cmake
 
 ```
 1 MESSAGE(STATUS "Using bundled Findlibdb.cmake...")
@@ -554,6 +554,7 @@ file(GLOB ALL_H_FILE RELATIVE${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}
 
 &emsp;&emsp;文件 Findlibdb_cxx.cmake 的命名要符合规范: FindlibNAME.cmake ,其中NAME 是函数库的名称。Findlibdb_cxx.cmake 的语法与 CMakeLists.txt 相同。这里使用了三个命令： MESSAGE ， FIND_PATH 和 FIND_LIBRARY 。
 &emsp;&emsp;命令 MESSAGE 会将参数的内容输出到终端。
+
 &emsp;&emsp;命令 FIND_PATH 指明头文件查找的路径，原型如下：
 &emsp;&emsp;find_path(<VAR> name1 [path1 path2 ...]) 该命令在参数 path* 指示的目录中查找文件 name1并将查找到的路径保存在变量 VAR 中。清单5第3－8行的意思是在 /usr/include/ 和 /usr/local/include/ 中查找文件db_cxx.h ,并将db_cxx.h 所在的路径保存在LIBDB_CXX_INCLUDE_DIR中。
 &emsp;&emsp;命令 FIND_LIBRARY 同 FIND_PATH 类似,用于查找链接库并将结果保存在变量中。清单5第10－13行的意思是在目录 /usr/lib/ 和 /usr/local/lib/ 中寻找名称为 db_cxx 的链接库,并将结果保存在 LIBDB_CXX_LIBRARIES。
@@ -563,8 +564,9 @@ file(GLOB ALL_H_FILE RELATIVE${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}
 * 命令 FIND_LIBRARY 同 FIND_PATH 类似,用于查找链接库并将结果保存在变量中。清单5第10－13行的意思是在目录 /usr/lib/ 和 /usr/local/lib/ 中寻找名称为 db_cxx 的链接库,并将结果保存在 LIBDB_CXX_LIBRARIES。
 
 ### Step 2 ： 项目的根目录中的 CmakeLists.txt
-在项目的根目录中创建 CmakeLists.txt ：
-清单 6. 可以查找链接库的 CMakeLists.txt
+&emsp;&emsp;在项目的根目录中创建 CmakeLists.txt ：
+
+&emsp;&emsp;清单 6. 可以查找链接库的 CMakeLists.txt
 
 ```
 01 PROJECT(main)
@@ -590,7 +592,7 @@ file(GLOB ALL_H_FILE RELATIVE${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}
 
 ### Step 3 ：执行 cmake
 &emsp;&emsp;完成 Findlibdb_cxx.cmake 和 CMakeList.txt 的编写后在项目的根目录依次执行 “cmake . ” 和 “make ” 可以进行编译,结果如下图所示：
-<div align=center>![4](./fig/4.jpg)</div><div align=center>图 4. 使用其他程序库时 cmake 的执行结果</div>
+<div align=center> <img src="./fig/4.jpg" width="400"/></div><div align=center>图 4. 使用其他程序库时 cmake 的执行结果</div>
 
 ## 七、使用 cmake 生成 debug 版和 release 版的程序
 &emsp;&emsp;在 Visual Studio 中我们可以生成 debug 版和 release 版的程序,使用 CMake 我们也可以达到上述效果。debug 版的项目生成的可执行文件需要有调试信息并且不需要进行优化,而 release 版的不需要调试信息但需要优化。这些特性在 gcc/g++ 中是通过编译时的参数来决定的,如果将优化程度调到最高需要设置参数-O3,最低是 -O0 即不做优化;添加调试信息的参数是 -g -ggdb ,如果不添加这个参数,调试信息就不会被包含在生成的二进制文件中。
@@ -609,9 +611,9 @@ file(GLOB ALL_H_FILE RELATIVE${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}
 7 ADD_EXECUTABLE(main ${DIR_SRCS})
 ```
 &emsp;&emsp;第 5 和 6 行设置了两个变量 CMAKE_CXX_FLAGS_DEBUG 和 CMAKE_CXX_FLAGS_RELEASE, 这两个变量是分别用于 debug 和 release 的编译选项。 编辑 CMakeList.txt 后需要执行 ccmake 命令生成 Makefile 。在进入项目的根目录,输入 "ccmake ." 进入一个图形化界面,如下图所示：
-<div align=center>![5](./fig/5.jpg)</div><div align=center>图 5. ccmake 的界面</div>
+<div align=center> <img src="./fig/5.jpg" width="400"/></div><div align=center>图 5. ccmake 的界面</div>
 &emsp;&emsp;按照界面中的提示进行操作,按 "c" 进行 configure ,这时界面中显示出了配置变量 CMAKE_BUILD_TYPE 的条目。如下图所示：
-<div align=center>![6](./fig/6.jpg)</div><div align=center>图 6. 执行了 configure 以后 ccmake 的界面</div>
+<div align=center> <img src="./fig/6.jpg" width="400"/></div><div align=center>图 6. 执行了 configure 以后 ccmake 的界面</div>
 
 &emsp;&emsp;下面我们首先生成 Debug 版的 Makefile ：将变量 CMAKE_BUILD_TYPE 设置为 Debug ,按 "c" 进行 configure ，按 "g" 生成 Makefile 并退出。这时执行命令 find * | xargs grep "O0" 后结果如下:
 清单 8 find * | xargs grep "O0"的执行结果
